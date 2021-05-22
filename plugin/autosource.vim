@@ -1,4 +1,4 @@
-" surround.vim - Surroundings
+" autosource.vim - AutoSource
 " Author:       Jordan Enterkin
 " Version:      0.1
 
