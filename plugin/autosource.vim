@@ -105,10 +105,22 @@ function! SourceParentRCs(path, uuid)
     endif
 
     " source file if found
+    let rc_exists = 1
     let rc = cur . '/.vimrc'
-    if filereadable(rc)
+    if !filereadable(rc)
+        let rc = rc . '.lua'
+        if !filereadable(rc)
+            let rc_exists = 0
+        endif
+    endif
+
+    if rc_exists
         if s:CheckHash(rc) ==# 1
-            exec printf('source %s', rc)
+            if rc =~ ".lua$"
+                exec printf('luafile %s', rc)
+            else
+                exec printf('source %s', rc)
+            endif
         endif
     endif
 
