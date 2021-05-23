@@ -18,6 +18,32 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 ### WARNING
 This plugin does not yet have tests and so this feature can not be guaranteed.
 
+## Installation
+### Plug
+**[Home Page](https://github.com/junegunn/vim-plug)**
+
+```vim
+Plug 'jenterkin/vim-autosource'
+```
+
+### packer.nvim
+**[Home Page](https://github.com/wbthomason/packer.nvim)**
+
+```lua
+use 'jenterkin/vim-autosource'
+```
+
+or if you'd like to set options after it loads:
+
+```lua
+use {
+    'jenterkin/vim-autosource',
+    config = function()
+        vim.g.autosource_hashes = '$XDG_CACHE_HOME/vim-autosource/hashes'
+    end
+}
+```
+
 ## Lua files
 AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`.
 
