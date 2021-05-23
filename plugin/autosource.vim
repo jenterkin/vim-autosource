@@ -107,7 +107,7 @@ function! s:Source(dir)
                 endif
 
                 if rc =~? '\M.lua$' " case insensitive, nomagic
-                    if has('lua')
+                    if has('nvim')
                         exec printf('luafile %s', rc)
                     endif
                 else
