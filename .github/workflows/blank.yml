@@ -26,9 +26,9 @@ jobs:
 
       - name: install dependencies
         run: >
-          apt-get update -y \
-            && apt-get upgrade -y \
-            && apt-get install -y python3-pip \
+          sudo apt-get update -y \
+            && sudo apt-get upgrade -y \
+            && sudo apt-get install -y python3-pip \
             && pip3 install --user vim-vint
 
       - name: lint
