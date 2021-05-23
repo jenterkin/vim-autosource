@@ -19,7 +19,7 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 This plugin does not yet have tests and so this feature can not be guaranteed.
 
 ## Prerequisistes
-AutoSource depends on `uuid` and `shasum` being installed on your system.
+AutoSource depends `shasum` being installed on your system. MacOS must also have `uuid` and Linux must have `uuidgen`.
 
 ## Variables
 ### `g:autosource_hashdir`
