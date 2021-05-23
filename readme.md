@@ -22,7 +22,7 @@ This plugin does not yet have tests and so this feature can not be guaranteed.
 ### `g:autosource_hashdir`
 **Default:** `$HOME/.autosource_hashes`
 
-This directory is where AutoSource stores the hashes of your files to check for changes so it can prompt you for re-approval.
+This directory is where AutoSource stores the hashes of your files. These hases are used to check for changes so the plugin can prompt you for re-approval.
 
 ## Planned Work
 - Add tests
