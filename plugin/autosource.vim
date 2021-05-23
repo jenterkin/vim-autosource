@@ -6,16 +6,16 @@ function! s:GetAutoSourceHashDir()
     if exists('g:autosource_hashdir')
         return g:autosource_hashdir
     endif
-        let dir = $HOME . '/.autosource_hashes'
-        if isdirectory(dir)
-            return dir
+    let dir = $HOME . '/.autosource_hashes'
+    if isdirectory(dir)
+        return dir
+    else
+        if filereadable(dir)
+            echo dir . ' is a file. Please delete it or set `g:autosource_hashdir` to another location'
         else
-            if filereadable(dir)
-                echo dir . ' is a file. Please delete it or set `g:autosource_hashdir` to another location'
-            else
-                call mkdir(dir)
-            endif
+            call mkdir(dir)
         endif
+    endif
 endfunction
 
 function! s:GetHashLocation(path)
