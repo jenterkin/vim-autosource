@@ -1,16 +1,7 @@
 # AutoSource
-AutoSource is a VIM plugin that finds each `.vimrc` file from your `$HOME` directory to the opened file. For example, with the given tree while editing `myfile`, AutoSource will source the `.vimrc` files in `a/` and `c/`, but not `d/`.
-```
-.
-└── a
-    ├── .vimrc
-    ├── b
-    │   └── c
-    │       ├── .vimrc
-    │       └── myfile
-    └── d
-        └── .vimrc
-```
+AutoSource is a VIM plugin that finds each vim configuration file (`.vimrc` or `.vimrc.lua`) from your `$HOME` directory to the opened file.
+
+![Example usage](static/example.gif)
 
 ## Security
 To prevent arbitrary code execution attacks, AutoSource will prompt you to approve new `.vimrc` files and to re-approve those which have changed. This check happens whenever a file is opened.
