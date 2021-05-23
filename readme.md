@@ -32,3 +32,6 @@ This directory is where AutoSource stores the hashes of your files. These hases 
 - Add docs
 
 While I do plan on adding these in the near future, this project is not my highest priority. PRs welcome.
+
+## Supported Operating Systems
+AutoSource currently only supports MacOS and Linux. If you would like to add Windows support, PRs are welcome.
