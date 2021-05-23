@@ -28,10 +28,7 @@ AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`
 This directory is where AutoSource stores the hashes of your files. These hases are used to check for changes so the plugin can prompt you for re-approval.
 
 ## Planned Work
-- Add tests
-- Add docs
-
-While I do plan on adding these in the near future, this project is not my highest priority. PRs welcome.
+Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
 
 ## Supported Operating Systems
 AutoSource currently only supports MacOS and Linux. If you would like to add Windows support, PRs are welcome.
