@@ -115,5 +115,5 @@ function! SourceParentRCs(path, uuid)
 endfunction
 
 augroup sourceparents
-    autocmd VimEnter,FileChangedShell,FileType * :call SourceParentRCs("", "")
+    autocmd BufReadPre,FileReadPre * :call SourceParentRCs("", "")
 augroup END
