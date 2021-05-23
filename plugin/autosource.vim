@@ -35,11 +35,12 @@ function! s:GetHashLocation(path)
 endfunc
 
 function! s:HashFile(file)
-    return split(system('shasum ' . a:file))[0]
+    let content = join(readfile(a:file), '\n')
+    return sha256(content)
 endfunction
 
 function! s:HashString(string)
-    return split(system('shasum', a:string))[0]
+    return sha256(a:string)
 endfunction
 
 function! s:GetKnownHash(path)
