@@ -21,6 +21,9 @@ This plugin does not yet have tests and so this feature can not be guaranteed.
 ## Prerequisistes
 AutoSource depends `shasum` being installed on your system. MacOS must also have `uuid` and Linux must have `uuidgen`.
 
+## Lua files
+AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`.
+
 ## Variables
 ### `g:autosource_hashdir`
 **Default:** `$HOME/.autosource_hashes`
