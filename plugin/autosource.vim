@@ -81,8 +81,16 @@ function! SourceParentRCs(path, uuid)
     " Prevent this function from being invoked by multiple autocmds
     if exists('g:autosource_running') && g:autosource_running !=# a:uuid
         return
-    else
+    elseif has('macunix')
+        if !executable('uuid')
+            echo 'Please install the `uuid` command'
+        endif
         let g:autosource_running = system('uuid')
+    elseif has('unix')
+        if !executable('uuidgen')
+            echo 'Please install the `uuidgen` command'
+        endif
+        let g:autosource_running = system('uuidgen')
     endif
 
     if a:path ==# ''

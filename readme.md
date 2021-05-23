@@ -18,6 +18,9 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 ### WARNING
 This plugin does not yet have tests and so this feature can not be guaranteed.
 
+## Prerequisistes
+AutoSource depends on `uuid` and `shasum` being installed on your system.
+
 ## Variables
 ### `g:autosource_hashdir`
 **Default:** `$HOME/.autosource_hashes`
