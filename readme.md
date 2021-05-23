@@ -50,4 +50,4 @@ This directory is where AutoSource stores the hashes of your files. These hases 
 Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
 
 ## Supported Operating Systems
-AutoSource currently only supports MacOS and Linux. If you would like to add Windows support, PRs are welcome.
+AutoSource currently only supports MacOS and Linux. Windows is not actively tested. If you would like to add Windows support, PRs are welcome.
