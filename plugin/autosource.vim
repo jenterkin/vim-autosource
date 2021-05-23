@@ -76,64 +76,44 @@ function! s:CheckHash(path)
     return 1
 endfunction
 
+let s:fnames = ['.vimrc', '.vimrc.lua']
+
 " Source all `.vimrc` files in your pwd and parents up to your home dir
-function! SourceParentRCs(path, uuid)
-    " Prevent this function from being invoked by multiple autocmds
-    if exists('g:autosource_running') && g:autosource_running !=# a:uuid
-        return
-    elseif has('macunix')
-        if !executable('uuid')
-            echo 'Please install the `uuid` command'
+function! s:Source(dir)
+    let cur = a:dir
+    let prev = ''
+    while prev !=# cur
+        " don't source outside of home dir
+        if cur !~ $HOME
+            return
         endif
-        let g:autosource_running = system('uuid')
-    elseif has('unix')
-        if !executable('uuidgen')
-            echo 'Please install the `uuidgen` command'
-        endif
-        let g:autosource_running = system('uuidgen')
-    endif
 
-    if a:path ==# ''
-        let cur = expand('%:p:h')
-    else
-        let cur = a:path
-    endif
+        for fname in s:fnames
+            let rc = cur . '/' . fname
+            if filereadable(rc)
+                if s:CheckHash(rc) !=# 1
+                    continue
+                endif
 
-    " don't source outside of home dir
-    if cur !~ $HOME
-        return
-    endif
-
-    " source file if found
-    let rc_exists = 1
-    let rc = cur . '/.vimrc'
-    if !filereadable(rc)
-        let rc = rc . '.lua'
-        if !filereadable(rc)
-            let rc_exists = 0
-        endif
-    endif
-
-    if rc_exists
-        if s:CheckHash(rc) ==# 1
-            if rc =~ ".lua$"
-                exec printf('luafile %s', rc)
-            else
-                exec printf('source %s', rc)
+                if rc =~? "\M.lua$" " case insensitive, nomagic
+                    if has('lua')
+                        exec printf('luafile %s', rc)
+                    endif
+                else
+                    exec printf('source %s', rc)
+                endif
             endif
-        endif
-    endif
+        endfor
 
-    " run again with parent dir
-    let parent = '/' . join(split(cur, '/')[:-2], '/')
-    call SourceParentRCs(parent, g:autosource_running)
-
-    " Unset when done to allow check to run again
-    if a:path ==# ''
-        unlet g:autosource_running
-    endif
+        let prev = cur
+        " get head from path
+        let cur = fnamemodify(cur, ':h')
+        " if directory didn't change, that means we hit the root directory.
+        " I have no idea how paths work on windows, so this is probably the safest way.
+    endwhile
 endfunction
 
 augroup sourceparents
-    autocmd BufReadPre,FileReadPre * :call SourceParentRCs("", "")
+    autocmd!
+    autocmd BufReadPre * nested call s:Source(expand('<afile>:p:h'))
 augroup END
