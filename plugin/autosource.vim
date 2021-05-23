@@ -86,7 +86,7 @@ function! SourceParentRCs(path, uuid)
     endif
 
     if a:path ==# ''
-        let cur = getcwd()
+        let cur = expand('%:p:h')
     else
         let cur = a:path
     endif
