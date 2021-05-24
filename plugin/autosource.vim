@@ -92,22 +92,24 @@ let s:fnames = ['.vimrc', '.vimrc.lua']
 
 " Source all `.vimrc` files in your pwd and parents up to your home dir
 function! s:Source(dir)
-    let cur = a:dir
-    let prev = ''
-    while prev !=# cur
-        " don't source outside of home dir
+    if a:dir !~ $HOME
+        return
+    endif
+
+    let i = 0
+    let crumbs = split(a:dir, '/')
+    while i < len(crumbs)
+        let cur = '/' . join(crumbs[0:i], '/')
+        let i += 1
+
         if cur !~ $HOME
-            return
+            continue
         endif
 
         for fname in s:fnames
             let rc = cur . '/' . fname
-            if filereadable(rc)
-                if s:CheckHash(rc) !=# 1
-                    continue
-                endif
-
-                if rc =~? '\M.lua$' " case insensitive, nomagic
+            if filereadable(rc) && s:CheckHash(rc) ==# 1
+                if rc =~? '\M.lua$'
                     if has('nvim')
                         exec printf('luafile %s', rc)
                     endif
@@ -116,12 +118,6 @@ function! s:Source(dir)
                 endif
             endif
         endfor
-
-        let prev = cur
-        " get head from path
-        let cur = fnamemodify(cur, ':h')
-        " if directory didn't change, that means we hit the root directory.
-        " I have no idea how paths work on windows, so this is probably the safest way.
     endwhile
 endfunction
 
