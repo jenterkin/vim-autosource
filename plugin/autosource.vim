@@ -123,5 +123,5 @@ endfunction
 
 augroup sourceparents
     autocmd!
-    autocmd BufReadPre * nested call s:Source(expand('<afile>:p:h'))
+    autocmd BufReadPre,BufNewFile * nested call s:Source(expand('<afile>:p:h'))
 augroup END
