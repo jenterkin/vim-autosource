@@ -77,7 +77,7 @@ function! s:CheckHash(path)
 
     " Check if file has changed
     if known_hash !=# s:HashFile(a:path)
-        let answer = confirm(a:path . ' has changed since it was last read. Would you like to approve it? (Choose no to inspect this file and re-open it to approve.)', '&yes\n&No', 2)
+        let answer = confirm(a:path . ' has been updated. Would you like to allow sourcing it? (Choose no to inspect this file and re-open it to approve.)', "&yes\n&No", 2)
         if answer ==# 1
             call s:SetHash(a:path)
             return 1
