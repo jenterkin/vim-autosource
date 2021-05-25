@@ -12,6 +12,19 @@
 " 
 " THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+function! s:GetAutoSourceApproveOnSave()
+    if exists('g:autosource_approve_on_save')
+        return g:autosource_approve_on_save
+    endif
+    return 1
+endfunction
+
+function! s:GetAutoSourceDisableAutoCmd()
+    if exists('g:autosource_disable_autocmd')
+        return g:autosource_disable_autocmd
+    endif
+    return 0
+endfunction
 
 function! s:GetAutoSourceHashDir()
     if exists('g:autosource_hashdir')
@@ -123,16 +136,22 @@ function! AutoSource(dir)
     endwhile
 endfunction
 
-function! s:GetAutoSourceDisableAutoCmd()
-    if exists('g:autosource_disable_autocmd')
-        return g:autosource_disable_autocmd
-    endif
-    return 0
+function! AutoSourceApproveFile(path)
+    call s:SetHash(a:path)
 endfunction
 
 if s:GetAutoSourceDisableAutoCmd() !=# 1
-    augroup sourceparents
+    augroup AutoSource_sourceparents
         autocmd!
         autocmd BufReadPre,BufNewFile * nested call AutoSource(expand('<afile>:p:h'))
+    augroup END
+endif
+
+if s:GetAutoSourceApproveOnSave() ==# 1
+    augroup AutoSource_autoapprove
+        autocmd!
+        " Create the autocmd for the possible vim conf file names. This is to
+        " prep for customizable names.
+        execute 'autocmd BufWritePost ' . join(s:fnames, ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
     augroup END
 endif
