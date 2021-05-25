@@ -12,6 +12,16 @@
 " 
 " THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+function! s:GetAutoSourceConfNames()
+    if exists('g:autosource_conf_names')
+        if type(g:autosource_conf_names) !=# v:t_list
+            return [g:autosource_conf_names]
+        endif
+        return g:autosource_conf_names
+    endif
+    return ['.vimrc', '.vimrc.lua']
+endfunction
+
 function! s:GetAutoSourceApproveOnSave()
     if exists('g:autosource_approve_on_save')
         return g:autosource_approve_on_save
@@ -103,8 +113,6 @@ function! s:CheckHash(path)
     return 1
 endfunction
 
-let s:fnames = ['.vimrc', '.vimrc.lua']
-
 " Source all `.vimrc` files in your pwd and parents up to your home dir
 function! AutoSource(dir)
     if a:dir !~ $HOME
@@ -121,7 +129,7 @@ function! AutoSource(dir)
             continue
         endif
 
-        for fname in s:fnames
+        for fname in s:GetAutoSourceConfNames()
             let rc = cur . '/' . fname
             if filereadable(rc) && s:CheckHash(rc) ==# 1
                 if rc =~? '\M.lua$'
@@ -149,6 +157,6 @@ augroup AutoSource
     if s:GetAutoSourceApproveOnSave() ==# 1
         " Create the autocmd for the possible vim conf file names. This is to
         " prep for customizable names.
-        execute 'autocmd BufWritePost ' . join(s:fnames, ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
+        execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
     endif
 augroup END

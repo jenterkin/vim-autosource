@@ -65,6 +65,20 @@ When set to 1, AutoSource will automatically approve `.vimrc` and `.vimrc.lua` f
 
 If you'd like to be approved even when you saved the config through vim, set this option to 0.
 
+### `g:autosource_conf_names`
+**Default:** `['.vimrc', '.vimrc.lua']`
+
+These are the file names that AutoSource looks for to source. You can set this to either a string if you're only specifying a single file, or a list if you'd like to check against multiple.
+
+```vim
+let g:autosource_conf_names = '.lvimrc'
+" or to check multiple
+let g:autosource_conf_names = ['.lvimrc', '.lvimrc.lua']
+```
+
+#### Lua Support
+In order for a lua file to be sourced correctly it **must** end with `.lua`.
+
 ## Planned Work
 Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
 
