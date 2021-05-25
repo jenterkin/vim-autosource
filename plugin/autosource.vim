@@ -57,7 +57,7 @@ endfunction
 function! s:GetHashLocation(path)
     let filename_hash = s:HashString(a:path)
     return s:GetAutoSourceHashDir() . '/' . filename_hash
-endfunc
+endfunction
 
 function! s:HashFile(file)
     let content = join(readfile(a:file), '\n')
