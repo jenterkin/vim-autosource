@@ -4,7 +4,7 @@ AutoSource is a VIM plugin that finds each vim configuration file (`.vimrc` or `
 ![Example usage](static/example.gif)
 
 ## Security
-To prevent arbitrary code execution attacks, AutoSource will prompt you to approve new `.vimrc` files and to re-approve those which have changed. By default AutoSource will automatically approve config changes made through VIM. See [`g:autosource_approve_on_save`](#`g:autosource_approve_on_save`) for more info.
+To prevent arbitrary code execution attacks, AutoSource will prompt you to approve new `.vimrc` files and to re-approve those which have changed. By default AutoSource will automatically approve config changes made through VIM. See [`g:autosource_approve_on_save`](#g:autosource_approve_on_save) for more info.
 
 ### WARNING
 This plugin does not yet have tests and so this feature can not be guaranteed.
