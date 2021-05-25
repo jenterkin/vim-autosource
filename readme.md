@@ -59,7 +59,7 @@ augroup END
 ```
 
 ### `g:autosource_approve_on_save`
-**Default:** 1
+**Default:** `1`
 
 When set to 1, AutoSource will automatically approve `.vimrc` and `.vimrc.lua` files when you save them. This reduces the number of approval prompts you'll have to see while still getting prompted when the file is changed outside of vim (e.g. someone puts a malicious `.vimrc` file in a repo that you've cloned).
 
