@@ -1,0 +1,4 @@
+name: Lint
+runs:
+  using: 'docker'
+  image: '../../Dockerfile.lint'
