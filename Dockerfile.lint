@@ -1,7 +1,0 @@
-# vi: ft=dockerfile
-FROM alpine:latest
-
-RUN apk add --update --no-cache py3-pip
-RUN pip3 install --user vim-vint
-
-CMD /root/.local/bin/vint **/*.vim
