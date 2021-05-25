@@ -13,4 +13,4 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/vint-action@v1
+      - uses: jenterkin/vint-action@v1
