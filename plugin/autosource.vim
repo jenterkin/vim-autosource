@@ -140,18 +140,15 @@ function! AutoSourceApproveFile(path)
     call s:SetHash(a:path)
 endfunction
 
-if s:GetAutoSourceDisableAutoCmd() !=# 1
-    augroup AutoSource_sourceparents
-        autocmd!
+augroup AutoSource
+    autocmd!
+    if s:GetAutoSourceDisableAutoCmd() !=# 1
         autocmd BufReadPre,BufNewFile * nested call AutoSource(expand('<afile>:p:h'))
-    augroup END
-endif
+    endif
 
-if s:GetAutoSourceApproveOnSave() ==# 1
-    augroup AutoSource_autoapprove
-        autocmd!
+    if s:GetAutoSourceApproveOnSave() ==# 1
         " Create the autocmd for the possible vim conf file names. This is to
         " prep for customizable names.
         execute 'autocmd BufWritePost ' . join(s:fnames, ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
-    augroup END
-endif
+    endif
+augroup END
