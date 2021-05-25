@@ -160,3 +160,6 @@ augroup AutoSource
         execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
     endif
 augroup END
+
+command! AutoSource call AutoSource(expand('%:p:h'))
+command! AutoSourceApproveFile call AutoSourceApproveFile(expand('%:p'))
