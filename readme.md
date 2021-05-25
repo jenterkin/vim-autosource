@@ -79,6 +79,14 @@ let g:autosource_conf_names = ['.lvimrc', '.lvimrc.lua']
 #### Lua Support
 In order for a lua file to be sourced correctly it **must** end with `.lua`.
 
+## Commands
+
+### `:AutoSource`
+Sources parents of the current file.
+
+### `:AutoSourceApproveFile`
+Approves the current file.
+
 ## Planned Work
 Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
 
