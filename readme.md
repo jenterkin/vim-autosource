@@ -39,8 +39,6 @@ use {
 }
 ```
 
-Run `:PackerCompile` after updating your packer config.
-
 ## Lua files
 AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`.
 
