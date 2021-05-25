@@ -15,9 +15,11 @@
 
 function! s:GetAutoSourceHashDir()
     if exists('g:autosource_hashdir')
-        return g:autosource_hashdir
+        let dir = g:autosource_hashdir
+    else
+        let dir = $HOME . '/.autosource_hashes'
     endif
-    let dir = $HOME . '/.autosource_hashes'
+
     if isdirectory(dir)
         return dir
     else
