@@ -93,7 +93,7 @@ endfunction
 let s:fnames = ['.vimrc', '.vimrc.lua']
 
 " Source all `.vimrc` files in your pwd and parents up to your home dir
-function! s:Source(dir)
+function! AutoSource(dir)
     if a:dir !~ $HOME
         return
     endif
@@ -123,7 +123,16 @@ function! s:Source(dir)
     endwhile
 endfunction
 
-augroup sourceparents
-    autocmd!
-    autocmd BufReadPre,BufNewFile * nested call s:Source(expand('<afile>:p:h'))
-augroup END
+function! s:GetAutoSourceDisableAutoCmd()
+    if exists('g:autosource_disable_autocmd')
+        return g:autosource_disable_autocmd
+    endif
+    return 0
+endfunction
+
+if s:GetAutoSourceDisableAutoCmd() !=# 1
+    augroup sourceparents
+        autocmd!
+        autocmd BufReadPre,BufNewFile * nested call AutoSource(expand('<afile>:p:h'))
+    augroup END
+endif

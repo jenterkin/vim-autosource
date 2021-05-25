@@ -46,6 +46,18 @@ AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`
 
 This directory is where AutoSource stores the hashes of your files. These hases are used to check for changes so the plugin can prompt you for re-approval.
 
+### `g:autosource_disable_autocmd`
+**Default:** `0`
+
+If set to `1`, the autocmd that triggers AutoSource will not be enabled. This can be useful if you would like more fine-grained control over when and how it is run. For example, if you only want to run it when you start VIM you can set the following `autocmd`:
+
+```vim
+augroup sourceparents
+    autocmd!
+    autocmd VimEnter * nested call AutoSource(expand('<afile>:p:h'))
+augroup END
+```
+
 ## Planned Work
 Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
 
