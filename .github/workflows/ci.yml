@@ -24,3 +24,18 @@ jobs:
 
       - name: lint
         run: ~/.local/bin/vint **/*.vim
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: >
+          sudo apt-get update -y \
+            && sudo apt-get upgrade -y \
+            && sudo apt-get install -y git vim \
+            && git clone https://github.com/junegunn/vader.vim vader \
+            && cd vader
+
+      - name: test
+        run : vim -Nu init.vim -c "Vader! tests/**/*.vader" > /dev/null
