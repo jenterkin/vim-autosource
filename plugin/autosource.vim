@@ -19,6 +19,20 @@ function! s:EchoWarning(msg)
   echon ': ' a:msg
 endfunction
 
+function! s:GetPromptForChangedConf()
+    if exists('g:autosource_prompt_for_changed_conf')
+        return g:autosource_prompt_for_changed_conf
+    endif
+    return 1
+endfunction
+
+function! s:GetPromptForNewConf()
+    if exists('g:autosource_prompt_for_new_conf')
+        return g:autosource_prompt_for_new_conf
+    endif
+    return 1
+endfunction
+
 function! s:GetAutoSourceConfNames()
     if exists('g:autosource_conf_names')
         if type(g:autosource_conf_names) !=# v:t_list
@@ -112,6 +126,9 @@ function! s:CheckHash(path)
 
     " Check if new file
     if known_hash ==# ''
+        if s:GetPromptForNewConf() ==# 0
+            return 0
+        endif
         let answer = confirm(a:path . ' is a new file. Would you like to allow sourcing it? (Choose no to inspect this file and re-open it to approve.)', "&yes\n&No", 2)
         if answer ==# 1
             call s:SetHash(a:path)
@@ -123,6 +140,9 @@ function! s:CheckHash(path)
 
     " Check if file has changed
     if known_hash !=# s:HashFile(a:path)
+        if s:GetPromptForChangedConf() ==# 0
+            return 0
+        endif
         let answer = confirm(a:path . ' has been updated. Would you like to allow sourcing it? (Choose no to inspect this file and re-open it to approve.)', "&yes\n&No", 2)
         if answer ==# 1
             call s:SetHash(a:path)

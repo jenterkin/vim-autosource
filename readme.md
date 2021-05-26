@@ -1,4 +1,4 @@
-# AutoSource
+# AutoSource  ![ci workflow](https://github.com/jenterkin/vim-autosource/actions/workflows/ci.yml/badge.svg)
 AutoSource is a VIM plugin that finds each vim configuration file (`.vimrc` or `.vimrc.lua`) from your `$HOME` directory to the opened file.
 
 ![Example usage](static/example.gif)
@@ -77,6 +77,20 @@ let g:autosource_conf_names = '.lvimrc'
 " or to check multiple
 let g:autosource_conf_names = ['.lvimrc', '.lvimrc.lua']
 ```
+
+### `g:autosource_prompt_for_new_file`
+**Default:** `1`
+
+The primary use-case of this option is to support automated testing.
+
+When set to `0` AutoSource will not prompt you when it detects a new file. The file will **NOT** be sourced.
+
+### `g:autosource_prompt_for_changed_file`
+**Default:** `1`
+
+The primary use-case of this option is to support automated testing.
+
+When set to `0` AutoSource will not prompt you when it detects when a file is changed. The file will **NOT** be sourced.
 
 #### Lua Support
 In order for a lua file to be sourced correctly it **must** end with `.lua`.
