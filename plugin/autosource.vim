@@ -12,6 +12,13 @@
 " 
 " THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+function! s:EchoWarning(msg)
+  echohl WarningMsg
+  echo 'Warning'
+  echohl None
+  echon ': ' a:msg
+endfunction
+
 function! s:GetAutoSourceConfNames()
     if exists('g:autosource_conf_names')
         if type(g:autosource_conf_names) !=# v:t_list
@@ -50,6 +57,7 @@ function! s:GetAutoSourceHashDir()
             echo dir . ' is a file. Please delete it or set `g:autosource_hashdir` to another location'
         else
             call mkdir(dir)
+            return dir
         endif
     endif
 endfunction
@@ -80,6 +88,19 @@ function! s:GetKnownHash(path)
 endfunction
 
 function! s:SetHash(path)
+    let found = 0
+    let filename = split(a:path, '/')[-1]
+    let names = s:GetAutoSourceConfNames()
+    for name in names
+        if filename == name
+            let found = 1
+        endif
+    endfor
+    if found ==# 0
+        " TODO: warn
+        call s:EchoWarning('Attempted to approve file not in g:autosource_conf_names (' . join(names, ', ') .'): ' . filename)
+        return
+    endif
     let hash_location = s:GetHashLocation(a:path)
     let data_hash = s:HashFile(a:path)
     call writefile([data_hash], hash_location)
@@ -144,21 +165,30 @@ function! AutoSource(dir)
     endwhile
 endfunction
 
+" Function that autocmd calls to trigger AutoSource. Used to allow
+" enabling/disabling on the fly.
+function! s:autocmdTriggerAutoSource(dir)
+    if s:GetAutoSourceDisableAutoCmd() !=# 1
+        call AutoSource(a:dir)
+    endif
+endfunction
+
 function! AutoSourceApproveFile(path)
     call s:SetHash(a:path)
 endfunction
 
+" Function that autocmd calls to trigger AutoSourceApproveFile. Used to allow
+" enabling/disabling on the fly.
+function! s:autocmdTriggerAutoSourceApproveFile(path)
+    if s:GetAutoSourceApproveOnSave() ==# 1
+        call AutoSourceApproveFile(a:path)
+    endif
+endfunction
+
 augroup AutoSource
     autocmd!
-    if s:GetAutoSourceDisableAutoCmd() !=# 1
-        autocmd BufReadPre,BufNewFile * nested call AutoSource(expand('<afile>:p:h'))
-    endif
-
-    if s:GetAutoSourceApproveOnSave() ==# 1
-        " Create the autocmd for the possible vim conf file names. This is to
-        " prep for customizable names.
-        execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call AutoSourceApproveFile(expand("<afile>:p"))'
-    endif
+    autocmd BufReadPre,BufNewFile * nested call s:autocmdTriggerAutoSource(expand('<afile>:p:h'))
+    execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call autocmdTriggerAutoSourceApproveFile(expand("<afile>:p"))'
 augroup END
 
 command! AutoSource call AutoSource(expand('%:p:h'))
