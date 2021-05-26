@@ -1,0 +1,44 @@
+Before (Create Temporary Test Data):
+  let g:autosource_disable_autocmd = 1
+  let g:autosource_approve_on_save = 0
+
+  let g:test_path = getcwd() . '/.test-bed'
+  let g:autosource_hashdir = g:test_path . '/hashes'
+
+  call mkdir(g:test_path)
+
+  function! g:SetupConf(filename)
+    let path = g:test_path . '/' . a:filename
+    call writefile([''], path)
+    return {
+    \ 'path': path,
+    \ 'filename_hash': sha256(path),
+    \ 'data_hash': sha256(join(readfile(path), '\n')),
+    \}
+  endfunction
+
+After (Teardown Test Data):
+  unlet g:autosource_hashdir
+  unlet g:autosource_disable_autocmd
+  unlet g:autosource_approve_on_save
+
+  if exists('g:assertion_data')
+    unlet g:assertion_data
+  endif
+
+  call delete(g:test_path, 'rf')
+  unlet g:test_path
+
+Execute (Approve .vimrc):
+  let g:assertion_data = g:SetupConf('.vimrc')
+  call AutoSourceApproveFile(g:assertion_data.path)
+
+Then (Verify hash was written):
+  Assert join(readfile(g:autosource_hashdir . '/' . g:assertion_data.filename_hash), '\n') ==# g:assertion_data.data_hash
+
+Execute (Approve invalid rc):
+  let g:assertion_data = g:SetupConf('invalid')
+  call AutoSourceApproveFile(g:assertion_data.path)
+
+Then (Verify the hash was not written):
+  Assert filereadable(g:autosource_hashdir . '/' . g:assertion_data.filename_hash) ==# 0

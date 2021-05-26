@@ -1,0 +1,76 @@
+Before (Create Temporary Test Data):
+  let g:autosource_disable_autocmd = 1
+  let g:autosource_approve_on_save = 0
+  let g:autosource_prompt_for_new_conf = 0
+  let g:autosource_prompt_for_changed_conf = 0
+
+  let g:test_path = getcwd() . '/.test-bed'
+  call delete(g:test_path, 'rf')
+  let g:autosource_hashdir = g:test_path . '/hashes'
+
+  call mkdir(g:test_path)
+
+After (Teardown Test Data):
+  unlet g:autosource_hashdir
+  unlet g:autosource_disable_autocmd
+  unlet g:autosource_approve_on_save
+
+  unlet g:test_path
+
+Execute (Source from File Next to a Config):
+  let rc_file = g:test_path . '/.vimrc'
+  call writefile(['let g:it_worked = 1'], rc_file)
+  call AutoSourceApproveFile(rc_file)
+  call AutoSource(g:test_path . '/other_file')
+
+Then (Verify that the Config was Sourced):
+  Assert exists('g:it_worked') ==# 1
+  Assert g:it_worked ==# 1
+  unlet g:it_worked
+
+Execute (Source from Un-Approved File Next to a Config):
+  let rc_file = g:test_path . '/.vimrc'
+  call writefile(['let g:it_did_not_work = 1'], rc_file)
+  call AutoSource(g:test_path . '/other_file')
+
+Then (Verify that the Config was NOT Sourced):
+  Assert exists('g:it_did_not_work') ==# 0
+
+Execute (Source from Approved File After Un-Approved Change):
+  let rc_file = g:test_path . '/.vimrc'
+  call writefile(['let g:it_did_not_work = 1'], rc_file)
+  call AutoSourceApproveFile(rc_file)
+  call AutoSource(g:test_path . '/other_file')
+  call writefile(['let g:it_did_not_work = 2'], rc_file)
+  call AutoSource(g:test_path . '/other_file')
+
+Then (Verify that the Config was NOT Sourced):
+  " Assert that it exists since it was sourced initially
+  Assert exists('g:it_did_not_work') ==# 1
+  " However, the value did not change sinc the new config was not approved
+  Assert g:it_did_not_work ==# 1
+
+Execute (Source from File Under Two Configs):
+  let first_parent_rc = g:test_path . '/a/.vimrc'
+  let second_parent_rc = g:test_path . '/a/b/.vimrc'
+  let work_file = g:test_path . '/a/b/c/some_file'
+
+  let path = g:test_path
+  for dir in ['a', 'b', 'c']
+    let path = path . '/' . dir
+    call mkdir(path)
+  endfor
+
+  call writefile(['let g:first_parent = 1'], first_parent_rc)
+  call writefile(['let g:second_parent = 2'], second_parent_rc)
+  call AutoSourceApproveFile(first_parent_rc)
+  call AutoSourceApproveFile(second_parent_rc)
+  call AutoSource(work_file)
+
+Then (Verify Both Configs were Sourced):
+  Assert exists('g:first_parent') ==# 1
+  Assert exists('g:second_parent') ==# 1
+  Assert g:first_parent ==# '1'
+  Assert g:second_parent ==# 2
+  unlet g:first_parent
+  unlet g:second_parent
