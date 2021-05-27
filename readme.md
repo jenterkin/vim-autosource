@@ -10,6 +10,11 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 
 In this gif I answered "no" to the prompt so that it was not sourced, then opened the `.vimrc` file that was cloned with the repo to see the _very_ malicious code inside.
 
+## Why AutoSource
+I work on many projects, some personal and others for work. Each project has its' own standards and requirements, which means I can't configure VIM to handle a given language in a single way. I'll also commonly hop into different repos to tweak something (e.g. an API response), then hop back to what I was originally doing (e.g. writing some client code that consumes said API endpoint).
+
+I wrote AutoSource because the available options (`exrc` and other plugins) didn't have either the functionality or security features that I wanted. AutoSource is configurable, unobtrusive, and secure.
+
 ## Installation
 ### Plug
 **[Home Page](https://github.com/junegunn/vim-plug)**
@@ -43,7 +48,7 @@ AutoSource will also look for `.vimrc.lua` files and source them with `:luafile`
 ### `g:autosource_hashdir`
 **Default:** `$HOME/.autosource_hashes`
 
-This directory is where AutoSource stores the hashes of your files. These hases are used to check for changes so the plugin can prompt you for re-approval.
+This directory is where AutoSource stores the hashes of your files. These hashes are used to check for changes so the plugin can prompt you for re-approval.
 
 ### `g:autosource_disable_autocmd`
 **Default:** `0`
@@ -102,6 +107,11 @@ Approves the current file.
 
 ## Planned Work
 Features are being tracked in the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement). If you would like to request a feature feel free to create an issue with the `enhancement` tag.
+
+## Similar Projects
+- [exrc.vim](https://github.com/ii14/exrc.vim)
+- [local_vimrc](https://github.com/LucHermitte/local_vimrc)
+- [vim-projectlocal](https://github.com/krisajenkins/vim-projectlocal)
 
 ## Supported Operating Systems
 AutoSource currently only supports MacOS and Linux. Windows is not actively tested. If you would like to add Windows support, PRs are welcome.
