@@ -10,9 +10,6 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 
 In this gif I answered "no" to the prompt so that it was not sourced, then opened the `.vimrc` file that was cloned with the repo to see the _very_ malicious code inside.
 
-### WARNING
-This plugin does not yet have tests and so this feature can not be guaranteed.
-
 ## Installation
 ### Plug
 **[Home Page](https://github.com/junegunn/vim-plug)**
