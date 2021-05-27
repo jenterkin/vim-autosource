@@ -111,6 +111,7 @@ Feel free to submit issues on the [issues page](https://github.com/jenterkin/vim
 ## Similar Projects
 - [exrc.vim](https://github.com/ii14/exrc.vim)
 - [local_vimrc](https://github.com/LucHermitte/local_vimrc)
+- [nvim-projectconfig](https://github.com/windwp/nvim-projectconfig)
 - [vim-projectlocal](https://github.com/krisajenkins/vim-projectlocal)
 
 ## Supported Operating Systems
