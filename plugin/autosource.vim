@@ -208,7 +208,7 @@ endfunction
 augroup AutoSource
     autocmd!
     autocmd BufReadPre,BufNewFile * nested call s:autocmdTriggerAutoSource(expand('<afile>:p:h'))
-    execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call autocmdTriggerAutoSourceApproveFile(expand("<afile>:p"))'
+    execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call s:autocmdTriggerAutoSourceApproveFile(expand("<afile>:p"))'
 augroup END
 
 command! AutoSource call AutoSource(expand('%:p:h'))
