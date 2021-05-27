@@ -1,17 +1,17 @@
 # AutoSource  ![ci workflow](https://github.com/jenterkin/vim-autosource/actions/workflows/ci.yml/badge.svg)
-AutoSource is a VIM plugin that finds each vim configuration file (`.vimrc` or `.vimrc.lua`) from your `$HOME` directory to the opened file.
+AutoSource is a Vim plugin that finds each Vim configuration file (`.vimrc` or `.vimrc.lua`) from your `$HOME` directory to the opened file.
 
 ![Example usage](static/example.gif)
 
 ## Security
-To prevent arbitrary code execution attacks, AutoSource will prompt you to approve new `.vimrc` files and to re-approve those which have changed. By default AutoSource will automatically approve config changes made through VIM. See [`g:autosource_approve_on_save`](#g:autosource_approve_on_save) for more info.
+To prevent arbitrary code execution attacks, AutoSource will prompt you to approve new `.vimrc` files and to re-approve those which have changed. By default AutoSource will automatically approve config changes made through Vim. See [`g:autosource_approve_on_save`](#g:autosource_approve_on_save) for more info.
 
 ![Security example](static/security_example.gif)
 
 In this gif I answered "no" to the prompt so that it was not sourced, then opened the `.vimrc` file that was cloned with the repo to see the _very_ malicious code inside.
 
 ## Why AutoSource
-I work on many projects and each project has its' own standards and requirements. This means I can't configure VIM to handle a given language in a single way. I'll also commonly open a file in a different repo than I'm currently in to tweak something (e.g. an API response), then hop back to what I was originally doing (e.g. writing some client code that consumes said API endpoint).
+I work on many projects and each project has its' own standards and requirements. This means I can't configure Vim to handle a given language in a single way. I'll also commonly open a file in a different repo than I'm currently in to tweak something (e.g. an API response), then hop back to what I was originally doing (e.g. writing some client code that consumes said API endpoint).
 
 I wrote AutoSource because the available options (`exrc` and other plugins) didn't have either the functionality or security features that I wanted. AutoSource is configurable, unobtrusive, and secure.
 
@@ -53,7 +53,7 @@ This directory is where AutoSource stores the hashes of your files. These hashes
 ### `g:autosource_disable_autocmd`
 **Default:** `0`
 
-If set to `1`, the autocmd that triggers AutoSource will not be enabled. This can be useful if you would like more fine-grained control over when and how it is run. For example, if you only want to run it when you start VIM you can set the following `autocmd`:
+If set to `1`, the autocmd that triggers AutoSource will not be enabled. This can be useful if you would like more fine-grained control over when and how it is run. For example, if you only want to run it when you start Vim you can set the following `autocmd`:
 
 ```vim
 augroup sourceparents
@@ -65,9 +65,9 @@ augroup END
 ### `g:autosource_approve_on_save`
 **Default:** `1`
 
-When set to 1, AutoSource will automatically approve `.vimrc` and `.vimrc.lua` files when you save them. This reduces the number of approval prompts you'll have to see while still getting prompted when the file is changed outside of vim (e.g. someone puts a malicious `.vimrc` file in a repo that you've cloned).
+When set to 1, AutoSource will automatically approve `.vimrc` and `.vimrc.lua` files when you save them. This reduces the number of approval prompts you'll have to see while still getting prompted when the file is changed outside of Vim (e.g. someone puts a malicious `.vimrc` file in a repo that you've cloned).
 
-If you'd like to be approved even when you saved the config through vim, set this option to 0.
+If you'd like to be approved even when you saved the config through Vim, set this option to 0.
 
 ### `g:autosource_conf_names`
 **Default:** `['.vimrc', '.vimrc.lua']`
