@@ -11,7 +11,7 @@ To prevent arbitrary code execution attacks, AutoSource will prompt you to appro
 In this gif I answered "no" to the prompt so that it was not sourced, then opened the `.vimrc` file that was cloned with the repo to see the _very_ malicious code inside.
 
 ## Why AutoSource
-I work on many projects, some personal and others for work. Each project has its' own standards and requirements, which means I can't configure VIM to handle a given language in a single way. I'll also commonly hop into different repos to tweak something (e.g. an API response), then hop back to what I was originally doing (e.g. writing some client code that consumes said API endpoint).
+I work on many projects and each project has its' own standards and requirements. This means I can't configure VIM to handle a given language in a single way. I'll also commonly open a file in a different repo than I'm currently in to tweak something (e.g. an API response), then hop back to what I was originally doing (e.g. writing some client code that consumes said API endpoint).
 
 I wrote AutoSource because the available options (`exrc` and other plugins) didn't have either the functionality or security features that I wanted. AutoSource is configurable, unobtrusive, and secure.
 
