@@ -114,4 +114,4 @@ Feel free to submit issues on the [issues page](https://github.com/jenterkin/vim
 - [vim-projectlocal](https://github.com/krisajenkins/vim-projectlocal)
 
 ## Supported Operating Systems
-AutoSource currently only supports MacOS and Linux. Windows is not actively tested. If you would like to add Windows support, PRs are welcome.
+AutoSource only supports MacOS and Linux. Windows is not actively tested. If you would like to fix any Windows-specific issues, feel free to submit a PR.
