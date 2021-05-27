@@ -106,7 +106,7 @@ Sources parents of the current file.
 Approves the current file.
 
 ## Want to see a new feature? Report a bug?
-Feel free to submit issues on the [issues page](https://github.com/jenterkin/vim-autosource/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement).
+Feel free to submit issues on the [issues page](https://github.com/jenterkin/vim-autosource/issues).
 
 ## Similar Projects
 - [exrc.vim](https://github.com/ii14/exrc.vim)
