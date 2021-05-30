@@ -36,7 +36,7 @@ or if you'd like to set options after it loads:
 use {
     'jenterkin/vim-autosource',
     config = function()
-        vim.g.autosource_hashes = '$XDG_CACHE_HOME/vim-autosource/hashes'
+        vim.g.autosource_hashdir = '$XDG_CACHE_HOME/vim-autosource/hashes'
     end
 }
 ```
