@@ -70,7 +70,7 @@ function! s:GetAutoSourceHashDir()
         if filereadable(dir)
             echo dir . ' is a file. Please delete it or set `g:autosource_hashdir` to another location'
         else
-            call mkdir(dir)
+            call mkdir(dir, 'p')
             return dir
         endif
     endif
