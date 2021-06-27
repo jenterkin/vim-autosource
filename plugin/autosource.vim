@@ -57,6 +57,13 @@ function! s:GetAutoSourceDisableAutoCmd()
     return 0
 endfunction
 
+function! s:GetAutoSourceLoadOncePerSession()
+    if exists('g:autosource_load_once_per_session')
+        return g:autosource_load_once_per_session
+    endif
+    return 0
+endfunction
+
 function! s:GetAutoSourceHashDir()
     if exists('g:autosource_hashdir')
         let dir = g:autosource_hashdir
@@ -155,9 +162,13 @@ function! s:CheckHash(path)
 endfunction
 
 " Source all `.vimrc` files in your pwd and parents up to your home dir
-function! AutoSource(dir)
+function! AutoSource(dir, load_once_per_session)
     if a:dir !~ $HOME
         return
+    endif
+
+    if a:load_once_per_session && !exists('s:sourced')
+        let s:sourced = {}
     endif
 
     let i = 0
@@ -173,6 +184,12 @@ function! AutoSource(dir)
         for fname in s:GetAutoSourceConfNames()
             let rc = cur . '/' . fname
             if filereadable(rc) && s:CheckHash(rc) ==# 1
+                if a:load_once_per_session
+                    if has_key(s:sourced, rc)
+                        continue
+                    endif
+                    let s:sourced[rc] = 1
+                endif
                 if rc =~? '\M.lua$'
                     if has('nvim')
                         exec printf('luafile %s', rc)
@@ -189,7 +206,7 @@ endfunction
 " enabling/disabling on the fly.
 function! s:autocmdTriggerAutoSource(dir)
     if s:GetAutoSourceDisableAutoCmd() !=# 1
-        call AutoSource(a:dir)
+        call AutoSource(a:dir, s:GetAutoSourceLoadOncePerSession())
     endif
 endfunction
 
@@ -211,5 +228,5 @@ augroup AutoSource
     execute 'autocmd BufWritePost ' . join(s:GetAutoSourceConfNames(), ',') . ' call s:autocmdTriggerAutoSourceApproveFile(expand("<afile>:p"))'
 augroup END
 
-command! AutoSource call AutoSource(expand('%:p:h'))
+command! AutoSource call AutoSource(expand('%:p:h'), 0)
 command! AutoSourceApproveFile call AutoSourceApproveFile(expand('%:p'))

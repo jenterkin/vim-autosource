@@ -21,7 +21,7 @@ Execute (Source from File Next to a Config):
   let rc_file = g:test_path . '/.vimrc'
   call writefile(['let g:it_worked = 1'], rc_file)
   call AutoSourceApproveFile(rc_file)
-  call AutoSource(g:test_path . '/other_file')
+  call AutoSource(g:test_path . '/other_file', 0)
 
 Then (Verify that the Config was Sourced):
   Assert exists('g:it_worked') ==# 1
@@ -31,7 +31,7 @@ Then (Verify that the Config was Sourced):
 Execute (Source from Un-Approved File Next to a Config):
   let rc_file = g:test_path . '/.vimrc'
   call writefile(['let g:it_did_not_work = 1'], rc_file)
-  call AutoSource(g:test_path . '/other_file')
+  call AutoSource(g:test_path . '/other_file', 0)
 
 Then (Verify that the Config was NOT Sourced):
   Assert exists('g:it_did_not_work') ==# 0
@@ -40,9 +40,9 @@ Execute (Source from Approved File After Un-Approved Change):
   let rc_file = g:test_path . '/.vimrc'
   call writefile(['let g:it_did_not_work = 1'], rc_file)
   call AutoSourceApproveFile(rc_file)
-  call AutoSource(g:test_path . '/other_file')
+  call AutoSource(g:test_path . '/other_file', 0)
   call writefile(['let g:it_did_not_work = 2'], rc_file)
-  call AutoSource(g:test_path . '/other_file')
+  call AutoSource(g:test_path . '/other_file', 0)
 
 Then (Verify that the Config was NOT Sourced):
   " Assert that it exists since it was sourced initially
@@ -65,7 +65,7 @@ Execute (Source from File Under Two Configs):
   call writefile(['let g:second_parent = 2'], second_parent_rc)
   call AutoSourceApproveFile(first_parent_rc)
   call AutoSourceApproveFile(second_parent_rc)
-  call AutoSource(work_file)
+  call AutoSource(work_file, 0)
 
 Then (Verify Both Configs were Sourced):
   Assert exists('g:first_parent') ==# 1
@@ -74,3 +74,15 @@ Then (Verify Both Configs were Sourced):
   Assert g:second_parent ==# 2
   unlet g:first_parent
   unlet g:second_parent
+
+Execute (Source from Multiple Files Next to a Config):
+  let rc_file = g:test_path . '/.vimrc'
+  let g:sourced_times = 0
+  call writefile(['let g:sourced_times += 1'], rc_file)
+  call AutoSourceApproveFile(rc_file)
+  call AutoSource(g:test_path . '/first_other_file', 1)
+  call AutoSource(g:test_path . '/second_other_file', 1)
+
+Then (Verify that the Config was Sourced Only Once):
+  Assert g:sourced_times ==# 1
+  unlet g:sourced_times

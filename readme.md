@@ -55,10 +55,15 @@ This directory is where AutoSource stores the hashes of your files. These hashes
 
 If set to `1`, the autocmd that triggers AutoSource will not be enabled. This can be useful if you would like more fine-grained control over when and how it is run. For example, if you only want to run it when you start Vim you can set the following `autocmd`:
 
+### `g:autosource_load_once_per_session`
+**Default:** `0`
+
+When set to `1` AutoSource will not source the same file multiple times from autocmd. `:AutoSource` always sources files.
+
 ```vim
 augroup sourceparents
     autocmd!
-    autocmd VimEnter * nested call AutoSource(expand('<afile>:p:h'))
+    autocmd VimEnter * nested call AutoSource(expand('<afile>:p:h'), g:autosource_load_once_per_session)
 augroup END
 ```
 
