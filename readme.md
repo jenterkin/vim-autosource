@@ -1,5 +1,5 @@
 # AutoSource  ![ci workflow](https://github.com/jenterkin/vim-autosource/actions/workflows/ci.yml/badge.svg)
-AutoSource is a Vim plugin that finds each Vim configuration file (`.vimrc` or `.vimrc.lua`) from your `$HOME` directory to the opened file.
+AutoSource is a Vim plugin that enables per project configuration by finding each Vim configuration file (`.vimrc` or `.vimrc.lua` by default) from your `$HOME` directory to the opened file.
 
 ![Example usage](static/example.gif)
 
