@@ -1,0 +1,154 @@
+*autosource.txt* Because every project deserves its own .vimrc
+*autosource* *AutoSource*
+
+               __ _ _   _| |_ ___  ___  ___  _   _ _ __ ___ ___  ~
+              / _` | | | | __/ _ \/ __|/ _ \| | | | '__/ __/ _ \ ~
+             | (_| | |_| | || (_) \__ \ (_) | |_| | | | (_|  __/ ~
+              \__,_|\__,_|\__\___/|___/\___/ \__,_|_|  \___\___| ~
+
+               Because every project deserves its own '.vimrc'.
+        Looks for .vimrc files in the directory of the current file and
+                         loads them in a secure way.
+
+===============================================================================
+CONTENTS                                                  *autosource-contents*
+
+    1. Introduction .................... |autosource-introduction|
+    2. Configuration ................... |autosource-configuration|
+    3. Commands ........................ |autosource-commands|
+    4. Contributing .................... |autosource-contributing|
+        4.1 How to contribute .......... |autosource-contribute|
+        4.2 License .................... |autosource-license|
+
+
+===============================================================================
+1: Introduction                                       *autosource-introduction*
+
+AutoSource is a Vim plugin that enables per project configuration by finding
+each Vim configuration file (.vimrc or .vimrc.lua by default) from your home
+directory to the opened file.
+
+To prevent arbitrary code execution attacks, AutoSource will prompt you to
+approve new .vimrc files and to re-approve those which have changed. By default
+AutoSource will automatically approve config changes made through Vim.
+
+Why autosource? I work on many projects and each project has its' own standards
+and requirements. This means I can't configure Vim to handle a given language
+in a single way. I'll also commonly open a file in a different repo than I'm
+currently in to tweak something (e.g. an API response), then hop back to what I
+was originally doing (e.g. writing some client code that consumes said API
+endpoint).
+
+I wrote AutoSource because the available options (exrc and other plugins)
+didn't have either the functionality or security features that I wanted.
+AutoSource is configurable, unobtrusive, and secure.
+
+===============================================================================
+2: Configuration                                     *autosource-configuration*
+
+    g:autosource_hashdir
+
+    Default "$HOME/.autosource_hashes"
+
+This directory is where AutoSource stores the hashes of your files. These
+hashes are used to check for changes so the plugin can prompt you for
+re-approval.
+
+
+    g:autosource_disable_autocmd
+
+    Default "0"
+
+If set to 1, the autocmd that triggers AutoSource will not be enabled. This
+can be useful if you would like more fine-grained control over when and how it
+is run. For example, if you only want to run it when you start Vim you can set
+the following autocmd:
+>
+ augroup sourceparents
+     autocmd!
+     autocmd VimEnter * nested call AutoSource(expand('<afile>:p:h'))
+ augroup END
+<
+
+    g:autosource_approve_on_save
+
+    Default "1"
+
+When set to 1, AutoSource will automatically approve .vimrc and .vimrc.lua
+files when you save them. This reduces the number of approval prompts you'll
+have to see while still getting prompted when the file is changed outside of
+Vim (e.g. someone puts a malicious .vimrc file in a repo that you've cloned).
+
+If you'd like to be approved even when you saved the config through Vim, set
+this option to 0.
+
+
+    g:autosource_conf_names
+
+    Default "['.vimrc', '.vimrc.lua']"
+
+These are the file names that AutoSource looks for to source. You can set this
+to either a string if you're only specifying a single file, or a list if you'd
+like to check against multiple.
+
+In order for a lua file to be sourced correctly it must end with .lua.
+>
+ let g:autosource_conf_names = '.lvimrc'
+ " or to check multiple
+ let g:autosource_conf_names = ['.lvimrc', '.lvimrc.lua']
+<
+
+    g:autosource_prompt_for_new_file
+
+    Default "1"
+
+The primary use-case of this option is to support automated testing.
+
+When set to 0 AutoSource will not prompt you when it detects a new file. The
+file will NOT be sourced.
+
+
+    g:autosource_prompt_for_changed_file
+
+    Default "1"
+
+The primary use-case of this option is to support automated testing.
+
+When set to 0 AutoSource will not prompt you when it detects when a file is
+changed. The file will NOT be sourced.
+
+
+    g:autosource_search_from_root
+
+    Default "1"
+
+Use to search from / instead of $HOME.
+
+===============================================================================
+3: Commands                                               *autosource-commands*
+
+:Autosource                                                       :*Autosource*
+
+Sources parents of the current file.
+
+:AutosourceApproveFile                                 *:AutosourceApproveFile*
+
+Approves the current file.
+
+===============================================================================
+4: Contributing                                       *autosource-contributing*
+
+-------------------------------------------------------------------------------
+4.1: How to contribute                                  *autosource-contribute*
+
+    https://github.com/jenterkin/vim-autosource
+
+Want to see a new feature? Report a bug? Feel free to submit issues on the
+issues page.
+
+-------------------------------------------------------------------------------
+4.2: License                                               *autosource-license*
+
+See `LICENSE` file.
+
+ vim:tw=78:sw=4:ft=help:norl:
