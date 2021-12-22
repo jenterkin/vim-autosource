@@ -163,10 +163,6 @@ endfunction
 
 " Source all `.vimrc` files in your pwd and parents up to your home dir
 function! AutoSource(dir)
-    if a:dir !~ $HOME
-        return
-    endif
-
     let i = 0
     let crumbs = split(a:dir, '/')
     while i < len(crumbs)
