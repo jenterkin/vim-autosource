@@ -94,6 +94,11 @@ The primary use-case of this option is to support automated testing.
 
 When set to `0` AutoSource will not prompt you when it detects when a file is changed. The file will **NOT** be sourced.
 
+### `g:autosource_search_from_root`
+**Default:** `0`
+
+Use to search from `/` instead of `$HOME`.
+
 #### Lua Support
 In order for a lua file to be sourced correctly it **must** end with `.lua`.
 
