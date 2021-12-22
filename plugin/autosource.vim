@@ -57,6 +57,13 @@ function! s:GetAutoSourceDisableAutoCmd()
     return 0
 endfunction
 
+function! s:GetSearchFromRoot()
+    if exists('g:autosource_search_from_root')
+        return g:autosource_search_from_root
+    endif
+    return 0
+endfunction
+
 function! s:GetAutoSourceHashDir()
     if exists('g:autosource_hashdir')
         let dir = g:autosource_hashdir
@@ -166,7 +173,7 @@ function! AutoSource(dir)
         let cur = '/' . join(crumbs[0:i], '/')
         let i += 1
 
-        if cur !~ $HOME
+        if !s:GetSearchFromRoot() && cur !~ $HOME
             continue
         endif
 
