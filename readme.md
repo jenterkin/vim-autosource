@@ -114,6 +114,7 @@ Approves the current file.
 Feel free to submit issues on the [issues page](https://github.com/jenterkin/vim-autosource/issues).
 
 ## Similar Projects
+- [vim-addon-local-vimrc](https://github.com/MarcWeber/vim-addon-local-vimrc)
 - [exrc.vim](https://github.com/ii14/exrc.vim)
 - [local_vimrc](https://github.com/LucHermitte/local_vimrc)
 - [nvim-projectconfig](https://github.com/windwp/nvim-projectconfig)
